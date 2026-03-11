@@ -1,0 +1,23 @@
+This system is designed using gRPC communication. It consists of 4 independent
+services:
+   Temperature Monitoring Service
+   Humidity Monitoring Service
+   Wire fire Risk Evaluation Service
+   Fire Emergency Response Service
+In this system, a central controller continuously collects real-time datas fromon-sitesensors and evaluates environmental conditions. 
+When the wildfire risk values at alocation are exceeded, the controller automatically triggers emergency response service. FUNCTIONALITIES:
+Temperature Monitoring Service
+  Controller collects real-time temperature data from sensors. 
+  Streams data continuously to the central controller.
+  Provides latest temperature values on request (Unary). 
+Humidity Monitoring Service
+  Controller collects real-time temperature data from sensors. 
+  Streams data continuously to the central controller. 
+  Provides latest humidity values on request (Unary). 
+Risk Evaluation Service (Central Controller)
+  Receives environmental snapshots from temperature and humidity services. 
+  Evaluates wildfire risk (LOW, MEDIUM, HIGH, CRITICAL). 
+  Sends commands to Fire Emergency Service. 
+Fire Emergency Response Service
+  Receives commands from central controller. 
+  Activates on-site sprinklers (Unary). Optional: continuous fire prevention devices status feedback (Bi-directional).
