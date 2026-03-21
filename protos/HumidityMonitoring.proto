@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "generated.grpc.HumidMonitoring";
+option java_outer_classname = "HumidMoServiceImpl";
+
+
+package humidity;
+
+service HumidityMonitoringService {
+  // UNARY: Check current humidity
+  rpc GetCurrentHumidity(LocationRequest) returns (HumidityResponse) {}
+
+  // SERVER STREAMING: Continuous humidity stream
+  rpc MonitorHumidity(LocationRequest) returns (stream HumidityResponse) {}
+}
+
+message LocationRequest {
+  string locationID = 1;
+}
+
+message HumidityResponse {
+  double humidityValue = 1;
+}

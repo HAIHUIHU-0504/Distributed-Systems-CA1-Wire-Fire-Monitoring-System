@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "generated.grpc.RiskEvaluetion";
+option java_outer_classname = "RiskEvaServiceImpl";
+
+package risk;
+
+service RiskEvaluateService {
+  // UNARY: Send snapshot and get risk assessment
+  rpc EvaluateRisk(EnvironmentalData) returns (RiskAssessment) {}
+}
+
+message EnvironmentalData {
+  double tempValue = 1;
+  double humidityValue = 2;
+  string locationID = 3;
+}
+
+message RiskAssessment {
+  enum Level {
+    LOW = 0;
+    MEDIUM = 1;
+    HIGH = 2;
+    CRITICAL = 3;
+  }
+  Level risk_level = 1;
+  string message = 2; // e.g., "High risk detected in Zone A"
+}
