@@ -1,8 +1,8 @@
 syntax = "proto3";
 
 option java_multiple_files = true;
-option java_package = "generated.grpc.HumidMonitoring";
-option java_outer_classname = "HumidMoServiceImpl";
+option java_package = "grpc.HumidityMonitoringService";
+option java_outer_classname = "HumidityMonitoringServiceImpl";
 
 
 package humidity;
