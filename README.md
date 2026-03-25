@@ -1,3 +1,6 @@
+Student Name: HAIHUI HU
+Student ID: x24312797
+
 Project Overview
 This system is a gRPC-based distributed application designed for wildfire prevention and climate action. 
 It consists of 4 independent microservices coordinated by a Central Controller.
