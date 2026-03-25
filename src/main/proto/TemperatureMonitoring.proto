@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "grpc.TempMonitoringService";
+option java_outer_classname = "TempMonitoringServiceImpl";
+
+
+package TempMonitoringService;
+
+service TempMonitoringService {
+  // UNARY: Get latest temperature right now
+  rpc GetCurrentTemperature(LocationRequest) returns (TemperatureResponse) {}
+
+  // SERVER STREAMING: Continuous data updates to controller
+  rpc MonitorTemperature(LocationRequest) returns (stream TemperatureResponse) {}
+}
+
+message LocationRequest {
+  string locationID = 1;
+}
+
+message TemperatureResponse {
+  double tempValue = 1;
+  int32 timeStamp = 2;
+}
