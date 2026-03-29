@@ -35,16 +35,16 @@ public final class TempMonitoringServiceImpl {
     java.lang.String[] descriptorData = {
       "\n\033TemperatureMonitoring.proto\022\025TempMonit" +
       "oringService\"%\n\017LocationRequest\022\022\n\nlocat" +
-      "ionID\030\001 \001(\t\";\n\023TemperatureResponse\022\021\n\tte" +
-      "mpValue\030\001 \001(\001\022\021\n\ttimeStamp\030\002 \001(\0052\364\001\n\025Tem" +
-      "pMonitoringService\022m\n\025GetCurrentTemperat" +
-      "ure\022&.TempMonitoringService.LocationRequ" +
-      "est\032*.TempMonitoringService.TemperatureR" +
-      "esponse\"\000\022l\n\022MonitorTemperature\022&.TempMo" +
-      "nitoringService.LocationRequest\032*.TempMo" +
-      "nitoringService.TemperatureResponse\"\0000\001B" +
-      "9\n\032grpc.TempMonitoringServiceB\031TempMonit" +
-      "oringServiceImplP\001b\006proto3"
+      "ionID\030\001 \001(\t\"(\n\023TemperatureResponse\022\021\n\tte" +
+      "mpValue\030\001 \001(\0052\364\001\n\025TempMonitoringService\022" +
+      "m\n\025GetCurrentTemperature\022&.TempMonitorin" +
+      "gService.LocationRequest\032*.TempMonitorin" +
+      "gService.TemperatureResponse\"\000\022l\n\022Monito" +
+      "rTemperature\022&.TempMonitoringService.Loc" +
+      "ationRequest\032*.TempMonitoringService.Tem" +
+      "peratureResponse\"\0000\001B9\n\032grpc.TempMonitor" +
+      "ingServiceB\031TempMonitoringServiceImplP\001b" +
+      "\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -69,7 +69,7 @@ public final class TempMonitoringServiceImpl {
     internal_static_TempMonitoringService_TemperatureResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_TempMonitoringService_TemperatureResponse_descriptor,
-        new java.lang.String[] { "TempValue", "TimeStamp", });
+        new java.lang.String[] { "TempValue", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

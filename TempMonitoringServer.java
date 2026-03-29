@@ -4,17 +4,18 @@ import grpc.TempMonitoringService.*;
 import grpc.TempMonitoringService.TempMonitoringServiceGrpc.TempMonitoringServiceImplBase;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Random;
 import java.util.logging.Logger;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 import io.grpc.stub.StreamObserver;
 
 
 public class TempMonitoringServer extends TempMonitoringServiceImplBase {
     private static final Logger logger = Logger.getLogger(TempMonitoringServer.class.getName());
-    private static TemperatureLocationMap tempDatabase = new TemperatureLocationMap();
+
     public static void main(String[] args){
 
         TempMonitoringServer TempServer = new TempMonitoringServer();
@@ -36,15 +37,10 @@ public class TempMonitoringServer extends TempMonitoringServiceImplBase {
     }
     @Override
     public void getCurrentTemperature(LocationRequest request, StreamObserver<TemperatureResponse> responseObserver)    {
-        String locationID = request.getLocationID();
         // Simulate temperature retrieval based on locationID
-        System.out.println("Received temperature request for location: " + request.getLocationID());
-        // retrieve temperature value from the database
-        Integer tempValue = tempDatabase.getCurrentTemperatureByLocation(locationID);
-        if (tempValue == null) {
-            System.out.println("Location not found: " + locationID);
-            tempValue = -999; // default value for unknown location
-        }
+        String locationID = request.getLocationID();
+        // Simulated random temperature (0-100)
+        int tempValue = (int) (Math.random() * 100); 
         // Builder for response
         TemperatureResponse response = TemperatureResponse.newBuilder()
                 .setTempValue(tempValue)
@@ -57,19 +53,14 @@ public class TempMonitoringServer extends TempMonitoringServiceImplBase {
     public void monitorTemperature(LocationRequest request, StreamObserver<TemperatureResponse> responseObserver)    
     {
         String locationID = request.getLocationID();
-        System.out.println("Starting continuous monitor for: " + locationID);
-        //retrieve temperature history for the location from the database
-        List<Integer> history = tempDatabase.getAllTemperaturesByLocation(locationID);
-        for (int i = 0; i <= history.size() - 1; i++) { 
-            // get each temperature value for the location
-            int tempValue = history.get(i); 
-
+        for (int i = 1; i <= 10; i++) { // Simulate 10 temperature readings
+            int tempValue = (int) (Math.random() * 100); // Simulated temperature value with some variation
             TemperatureResponse response = TemperatureResponse.newBuilder()
                     .setTempValue(tempValue)
                     .build();
 
             responseObserver.onNext(response);
-            System.out.println("Sent reading " + (i) + " for " + request.getLocationID());
+            System.out.println("Sent reading " + (i) + " for " + locationID);
 
             try {
                 Thread.sleep(2000); // Simulate delay between readings

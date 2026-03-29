@@ -20,6 +20,5 @@ message LocationRequest {
 }
 
 message TemperatureResponse {
-  double tempValue = 1;
-  int32 timeStamp = 2;
+  int32 tempValue = 1;
 }

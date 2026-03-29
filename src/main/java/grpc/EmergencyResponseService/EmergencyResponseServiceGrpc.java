@@ -115,13 +115,6 @@ public final class EmergencyResponseServiceGrpc {
   }
 
   /**
-   * 
-   * <pre>
-   * Service definition for emergency response actions and device monitoring.
-   * UNARY: Activate on-site sprinklers
-   * BI-DIRECTIONAL: Real-time status feedback from devices
-   * </pre>
-   * 
    */
   public static abstract class EmergencyResponseServiceImplBase implements io.grpc.BindableService {
 

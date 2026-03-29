@@ -8,21 +8,16 @@ public interface EnvironmentalDataOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>double tempValue = 1;</code>
+   * <code>int32 tempValue = 1;</code>
    */
-  double getTempValue();
+  int getTempValue();
 
   /**
-   * <code>double humidityValue = 2;</code>
-   */
-  double getHumidityValue();
-
-  /**
-   * <code>string locationID = 3;</code>
+   * <code>string locationID = 2;</code>
    */
   java.lang.String getLocationID();
   /**
-   * <code>string locationID = 3;</code>
+   * <code>string locationID = 2;</code>
    */
   com.google.protobuf.ByteString
       getLocationIDBytes();

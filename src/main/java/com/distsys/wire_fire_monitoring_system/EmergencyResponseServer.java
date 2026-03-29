@@ -7,17 +7,19 @@ import java.util.logging.Logger;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 import io.grpc.stub.StreamObserver;
+
+
 
 
 public class EmergencyResponseServer extends EmergencyResponseServiceImplBase{
     	private static final Logger logger = Logger.getLogger(EmergencyResponseServer.class.getName());
         public static void main(String[] args) {
-            int port = 50051;
+            EmergencyResponseServer ERPserver = new EmergencyResponseServer();
+            int port = 50053;
             try {
                 Server server = ServerBuilder.forPort(port)
-                        .addService(new EmergencyResponseServer())
+                        .addService(ERPserver)
                         .build()
                         .start();
                 logger.info("Emergency Response Server started, listening on " + port);
@@ -26,30 +28,66 @@ public class EmergencyResponseServer extends EmergencyResponseServiceImplBase{
                 logger.severe("Server error: " + e.getMessage());
             }            
         }
-        // @Override
-        // public void activateSprinklers(ActivateSprinklersRequest request, StreamObserver<ActivateSprinklersResponse> responseObserver) {
-        //     // Simulate sprinkler activation logic
-        //     logger.info("Received ActivateSprinklersRequest for location: " + request.getLocation());
-        //     boolean success = true; // Simulate successful activation
-        //     String message = "Sprinklers activated at " + request.getLocation();
-        //     ActivateSprinklersResponse response = ActivateSprinklersResponse.newBuilder()
-        //             .setSuccess(success)
-        //             .setMessage(message)
-        //             .build();
-        //     responseObserver.onNext(response);
-        //     responseObserver.onCompleted();
-        // }
-        // @Override
-        // public void monitorDeviceStatus(MonitorDeviceStatusRequest request, StreamObserver<MonitorDeviceStatusResponse> responseObserver) {
-        //     // Simulate device status monitoring logic
-        //     logger.info("Received MonitorDeviceStatusRequest for device: " + request.getDeviceId());
-        //     String status = "OK"; // Simulate device status
-        //     MonitorDeviceStatusResponse response = MonitorDeviceStatusResponse.newBuilder()
-        //             .setStatus(status)
-        //             .build();
-        //     responseObserver.onNext(response);
-        //     responseObserver.onCompleted();
-        }       
+
+        // Unary RPC: act on / shut down sprinkler system manually
+        @Override
+        public void activateSprinklers(ActionRequest request, StreamObserver<ActionResponse> responseObserver) {
+        String location = request.getLocation();
+        boolean hasActivated = request.getActivate();
+        
+        System.out.println("received command - location: " + location + ", action: " + (hasActivated ? "activate" : "deactivate"));
+
+        boolean success = true; 
+        String msg = "Location [" + location + "] sprinkler has been " + (hasActivated ? "successfully activated" : "successfully deactivated");
+
+        ActionResponse response = ActionResponse.newBuilder()
+                .setSuccess(success)
+                .setMessage(msg)
+                .build();
+
+        // respond to result to client
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    /**
+     * BI-DIRECTIONAL STREAMING: monitor device health status in real-time. Clients continuously send health updates, and the server responds with status updates.
+     */
+    @Override
+    public StreamObserver<DeviceHealthRequest> monitorDeviceStatus(StreamObserver<DeviceStatusResponse> responseObserver) {
+        
+        // anonymous: return a StreamObserver to handle incoming client messages, and use the provided responseObserver to send updates back to the client in real-time. This allows for continuous two-way communication between the server and client.
+        return new StreamObserver<DeviceHealthRequest>() {
+
+            @Override
+            public void onNext(DeviceHealthRequest request) {
+                // 1. receive status update from client
+                String id = request.getDeviceID();
+                System.out.println("received health update for device: " + id);
+
+                // 2. respond with a status update (for demonstration, we simply echo back a "working" status for any received update)
+                DeviceStatusResponse statusUpdate = DeviceStatusResponse.newBuilder()
+                        .setDeviceID(id)
+                        .setStatus("Working (Normal)")
+                        .build();
+
+                // 3. respond to client with the status update
+                responseObserver.onNext(statusUpdate);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                System.err.println("Error occurred, pausing monitoring: " + t.getMessage());
+            }
+
+            @Override
+            public void onCompleted() {
+                System.out.println("Client has closed the monitoring stream.");
+                responseObserver.onCompleted();
+            }
+        };
+    }
+}       
         
 
 

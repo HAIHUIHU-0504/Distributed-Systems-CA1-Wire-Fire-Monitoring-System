@@ -34,17 +34,16 @@ public final class RiskEvaluateServiceImpl {
   static {
     java.lang.String[] descriptorData = {
       "\n\024RiskEvaluation.proto\022\023RiskEvaluateServ" +
-      "ice\"Q\n\021EnvironmentalData\022\021\n\ttempValue\030\001 " +
-      "\001(\001\022\025\n\rhumidityValue\030\002 \001(\001\022\022\n\nlocationID" +
-      "\030\003 \001(\t\"\226\001\n\016RiskAssessment\022=\n\nrisk_level\030" +
-      "\001 \001(\0162).RiskEvaluateService.RiskAssessme" +
-      "nt.Level\022\017\n\007message\030\002 \001(\t\"4\n\005Level\022\007\n\003LO" +
-      "W\020\000\022\n\n\006MEDIUM\020\001\022\010\n\004HIGH\020\002\022\014\n\010CRITICAL\020\0032" +
-      "t\n\023RiskEvaluateService\022]\n\014EvaluateRisk\022&" +
-      ".RiskEvaluateService.EnvironmentalData\032#" +
-      ".RiskEvaluateService.RiskAssessment\"\000B5\n" +
-      "\030grpc.RiskEvaluateServiceB\027RiskEvaluateS" +
-      "erviceImplP\001b\006proto3"
+      "ice\":\n\021EnvironmentalData\022\021\n\ttempValue\030\001 " +
+      "\001(\005\022\022\n\nlocationID\030\002 \001(\t\"\226\001\n\016RiskAssessme" +
+      "nt\022=\n\nrisk_level\030\001 \001(\0162).RiskEvaluateSer" +
+      "vice.RiskAssessment.Level\022\017\n\007message\030\002 \001" +
+      "(\t\"4\n\005Level\022\007\n\003LOW\020\000\022\n\n\006MEDIUM\020\001\022\010\n\004HIGH" +
+      "\020\002\022\014\n\010CRITICAL\020\0032t\n\023RiskEvaluateService\022" +
+      "]\n\014EvaluateRisk\022&.RiskEvaluateService.En" +
+      "vironmentalData\032#.RiskEvaluateService.Ri" +
+      "skAssessment\"\000B5\n\030grpc.RiskEvaluateServi" +
+      "ceB\027RiskEvaluateServiceImplP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -63,7 +62,7 @@ public final class RiskEvaluateServiceImpl {
     internal_static_RiskEvaluateService_EnvironmentalData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RiskEvaluateService_EnvironmentalData_descriptor,
-        new java.lang.String[] { "TempValue", "HumidityValue", "LocationID", });
+        new java.lang.String[] { "TempValue", "LocationID", });
     internal_static_RiskEvaluateService_RiskAssessment_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_RiskEvaluateService_RiskAssessment_fieldAccessorTable = new

@@ -16,8 +16,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private EnvironmentalData() {
-    tempValue_ = 0D;
-    humidityValue_ = 0D;
+    tempValue_ = 0;
     locationID_ = "";
   }
 
@@ -45,17 +44,12 @@ private static final long serialVersionUID = 0L;
           case 0:
             done = true;
             break;
-          case 9: {
+          case 8: {
 
-            tempValue_ = input.readDouble();
+            tempValue_ = input.readInt32();
             break;
           }
-          case 17: {
-
-            humidityValue_ = input.readDouble();
-            break;
-          }
-          case 26: {
+          case 18: {
             java.lang.String s = input.readStringRequireUtf8();
 
             locationID_ = s;
@@ -94,27 +88,18 @@ private static final long serialVersionUID = 0L;
   }
 
   public static final int TEMPVALUE_FIELD_NUMBER = 1;
-  private double tempValue_;
+  private int tempValue_;
   /**
-   * <code>double tempValue = 1;</code>
+   * <code>int32 tempValue = 1;</code>
    */
-  public double getTempValue() {
+  public int getTempValue() {
     return tempValue_;
   }
 
-  public static final int HUMIDITYVALUE_FIELD_NUMBER = 2;
-  private double humidityValue_;
-  /**
-   * <code>double humidityValue = 2;</code>
-   */
-  public double getHumidityValue() {
-    return humidityValue_;
-  }
-
-  public static final int LOCATIONID_FIELD_NUMBER = 3;
+  public static final int LOCATIONID_FIELD_NUMBER = 2;
   private volatile java.lang.Object locationID_;
   /**
-   * <code>string locationID = 3;</code>
+   * <code>string locationID = 2;</code>
    */
   public java.lang.String getLocationID() {
     java.lang.Object ref = locationID_;
@@ -129,7 +114,7 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
-   * <code>string locationID = 3;</code>
+   * <code>string locationID = 2;</code>
    */
   public com.google.protobuf.ByteString
       getLocationIDBytes() {
@@ -159,14 +144,11 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (tempValue_ != 0D) {
-      output.writeDouble(1, tempValue_);
-    }
-    if (humidityValue_ != 0D) {
-      output.writeDouble(2, humidityValue_);
+    if (tempValue_ != 0) {
+      output.writeInt32(1, tempValue_);
     }
     if (!getLocationIDBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, locationID_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, locationID_);
     }
     unknownFields.writeTo(output);
   }
@@ -177,16 +159,12 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (tempValue_ != 0D) {
+    if (tempValue_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeDoubleSize(1, tempValue_);
-    }
-    if (humidityValue_ != 0D) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeDoubleSize(2, humidityValue_);
+        .computeInt32Size(1, tempValue_);
     }
     if (!getLocationIDBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, locationID_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, locationID_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -204,14 +182,8 @@ private static final long serialVersionUID = 0L;
     grpc.RiskEvaluateService.EnvironmentalData other = (grpc.RiskEvaluateService.EnvironmentalData) obj;
 
     boolean result = true;
-    result = result && (
-        java.lang.Double.doubleToLongBits(getTempValue())
-        == java.lang.Double.doubleToLongBits(
-            other.getTempValue()));
-    result = result && (
-        java.lang.Double.doubleToLongBits(getHumidityValue())
-        == java.lang.Double.doubleToLongBits(
-            other.getHumidityValue()));
+    result = result && (getTempValue()
+        == other.getTempValue());
     result = result && getLocationID()
         .equals(other.getLocationID());
     result = result && unknownFields.equals(other.unknownFields);
@@ -226,11 +198,7 @@ private static final long serialVersionUID = 0L;
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
     hash = (37 * hash) + TEMPVALUE_FIELD_NUMBER;
-    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-        java.lang.Double.doubleToLongBits(getTempValue()));
-    hash = (37 * hash) + HUMIDITYVALUE_FIELD_NUMBER;
-    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-        java.lang.Double.doubleToLongBits(getHumidityValue()));
+    hash = (53 * hash) + getTempValue();
     hash = (37 * hash) + LOCATIONID_FIELD_NUMBER;
     hash = (53 * hash) + getLocationID().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
@@ -366,9 +334,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      tempValue_ = 0D;
-
-      humidityValue_ = 0D;
+      tempValue_ = 0;
 
       locationID_ = "";
 
@@ -399,7 +365,6 @@ private static final long serialVersionUID = 0L;
     public grpc.RiskEvaluateService.EnvironmentalData buildPartial() {
       grpc.RiskEvaluateService.EnvironmentalData result = new grpc.RiskEvaluateService.EnvironmentalData(this);
       result.tempValue_ = tempValue_;
-      result.humidityValue_ = humidityValue_;
       result.locationID_ = locationID_;
       onBuilt();
       return result;
@@ -449,11 +414,8 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(grpc.RiskEvaluateService.EnvironmentalData other) {
       if (other == grpc.RiskEvaluateService.EnvironmentalData.getDefaultInstance()) return this;
-      if (other.getTempValue() != 0D) {
+      if (other.getTempValue() != 0) {
         setTempValue(other.getTempValue());
-      }
-      if (other.getHumidityValue() != 0D) {
-        setHumidityValue(other.getHumidityValue());
       }
       if (!other.getLocationID().isEmpty()) {
         locationID_ = other.locationID_;
@@ -488,61 +450,35 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private double tempValue_ ;
+    private int tempValue_ ;
     /**
-     * <code>double tempValue = 1;</code>
+     * <code>int32 tempValue = 1;</code>
      */
-    public double getTempValue() {
+    public int getTempValue() {
       return tempValue_;
     }
     /**
-     * <code>double tempValue = 1;</code>
+     * <code>int32 tempValue = 1;</code>
      */
-    public Builder setTempValue(double value) {
+    public Builder setTempValue(int value) {
       
       tempValue_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>double tempValue = 1;</code>
+     * <code>int32 tempValue = 1;</code>
      */
     public Builder clearTempValue() {
       
-      tempValue_ = 0D;
-      onChanged();
-      return this;
-    }
-
-    private double humidityValue_ ;
-    /**
-     * <code>double humidityValue = 2;</code>
-     */
-    public double getHumidityValue() {
-      return humidityValue_;
-    }
-    /**
-     * <code>double humidityValue = 2;</code>
-     */
-    public Builder setHumidityValue(double value) {
-      
-      humidityValue_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>double humidityValue = 2;</code>
-     */
-    public Builder clearHumidityValue() {
-      
-      humidityValue_ = 0D;
+      tempValue_ = 0;
       onChanged();
       return this;
     }
 
     private java.lang.Object locationID_ = "";
     /**
-     * <code>string locationID = 3;</code>
+     * <code>string locationID = 2;</code>
      */
     public java.lang.String getLocationID() {
       java.lang.Object ref = locationID_;
@@ -557,7 +493,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>string locationID = 3;</code>
+     * <code>string locationID = 2;</code>
      */
     public com.google.protobuf.ByteString
         getLocationIDBytes() {
@@ -573,7 +509,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>string locationID = 3;</code>
+     * <code>string locationID = 2;</code>
      */
     public Builder setLocationID(
         java.lang.String value) {
@@ -586,7 +522,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>string locationID = 3;</code>
+     * <code>string locationID = 2;</code>
      */
     public Builder clearLocationID() {
       
@@ -595,7 +531,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>string locationID = 3;</code>
+     * <code>string locationID = 2;</code>
      */
     public Builder setLocationIDBytes(
         com.google.protobuf.ByteString value) {

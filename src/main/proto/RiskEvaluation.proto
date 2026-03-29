@@ -12,9 +12,8 @@ service RiskEvaluateService {
 }
 
 message EnvironmentalData {
-  double tempValue = 1;
-  double humidityValue = 2;
-  string locationID = 3;
+  int32 tempValue = 1;
+  string locationID = 2;
 }
 
 message RiskAssessment {

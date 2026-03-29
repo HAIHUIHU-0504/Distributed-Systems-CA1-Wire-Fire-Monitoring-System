@@ -16,8 +16,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private TemperatureResponse() {
-    tempValue_ = 0D;
-    timeStamp_ = 0;
+    tempValue_ = 0;
   }
 
   @java.lang.Override
@@ -44,14 +43,9 @@ private static final long serialVersionUID = 0L;
           case 0:
             done = true;
             break;
-          case 9: {
+          case 8: {
 
-            tempValue_ = input.readDouble();
-            break;
-          }
-          case 16: {
-
-            timeStamp_ = input.readInt32();
+            tempValue_ = input.readInt32();
             break;
           }
           default: {
@@ -87,21 +81,12 @@ private static final long serialVersionUID = 0L;
   }
 
   public static final int TEMPVALUE_FIELD_NUMBER = 1;
-  private double tempValue_;
+  private int tempValue_;
   /**
-   * <code>double tempValue = 1;</code>
+   * <code>int32 tempValue = 1;</code>
    */
-  public double getTempValue() {
+  public int getTempValue() {
     return tempValue_;
-  }
-
-  public static final int TIMESTAMP_FIELD_NUMBER = 2;
-  private int timeStamp_;
-  /**
-   * <code>int32 timeStamp = 2;</code>
-   */
-  public int getTimeStamp() {
-    return timeStamp_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -118,11 +103,8 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (tempValue_ != 0D) {
-      output.writeDouble(1, tempValue_);
-    }
-    if (timeStamp_ != 0) {
-      output.writeInt32(2, timeStamp_);
+    if (tempValue_ != 0) {
+      output.writeInt32(1, tempValue_);
     }
     unknownFields.writeTo(output);
   }
@@ -133,13 +115,9 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (tempValue_ != 0D) {
+    if (tempValue_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeDoubleSize(1, tempValue_);
-    }
-    if (timeStamp_ != 0) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(2, timeStamp_);
+        .computeInt32Size(1, tempValue_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -157,12 +135,8 @@ private static final long serialVersionUID = 0L;
     grpc.TempMonitoringService.TemperatureResponse other = (grpc.TempMonitoringService.TemperatureResponse) obj;
 
     boolean result = true;
-    result = result && (
-        java.lang.Double.doubleToLongBits(getTempValue())
-        == java.lang.Double.doubleToLongBits(
-            other.getTempValue()));
-    result = result && (getTimeStamp()
-        == other.getTimeStamp());
+    result = result && (getTempValue()
+        == other.getTempValue());
     result = result && unknownFields.equals(other.unknownFields);
     return result;
   }
@@ -175,10 +149,7 @@ private static final long serialVersionUID = 0L;
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
     hash = (37 * hash) + TEMPVALUE_FIELD_NUMBER;
-    hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-        java.lang.Double.doubleToLongBits(getTempValue()));
-    hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
-    hash = (53 * hash) + getTimeStamp();
+    hash = (53 * hash) + getTempValue();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -312,9 +283,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      tempValue_ = 0D;
-
-      timeStamp_ = 0;
+      tempValue_ = 0;
 
       return this;
     }
@@ -343,7 +312,6 @@ private static final long serialVersionUID = 0L;
     public grpc.TempMonitoringService.TemperatureResponse buildPartial() {
       grpc.TempMonitoringService.TemperatureResponse result = new grpc.TempMonitoringService.TemperatureResponse(this);
       result.tempValue_ = tempValue_;
-      result.timeStamp_ = timeStamp_;
       onBuilt();
       return result;
     }
@@ -392,11 +360,8 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(grpc.TempMonitoringService.TemperatureResponse other) {
       if (other == grpc.TempMonitoringService.TemperatureResponse.getDefaultInstance()) return this;
-      if (other.getTempValue() != 0D) {
+      if (other.getTempValue() != 0) {
         setTempValue(other.getTempValue());
-      }
-      if (other.getTimeStamp() != 0) {
-        setTimeStamp(other.getTimeStamp());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -427,54 +392,28 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private double tempValue_ ;
+    private int tempValue_ ;
     /**
-     * <code>double tempValue = 1;</code>
+     * <code>int32 tempValue = 1;</code>
      */
-    public double getTempValue() {
+    public int getTempValue() {
       return tempValue_;
     }
     /**
-     * <code>double tempValue = 1;</code>
+     * <code>int32 tempValue = 1;</code>
      */
-    public Builder setTempValue(double value) {
+    public Builder setTempValue(int value) {
       
       tempValue_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>double tempValue = 1;</code>
+     * <code>int32 tempValue = 1;</code>
      */
     public Builder clearTempValue() {
       
-      tempValue_ = 0D;
-      onChanged();
-      return this;
-    }
-
-    private int timeStamp_ ;
-    /**
-     * <code>int32 timeStamp = 2;</code>
-     */
-    public int getTimeStamp() {
-      return timeStamp_;
-    }
-    /**
-     * <code>int32 timeStamp = 2;</code>
-     */
-    public Builder setTimeStamp(int value) {
-      
-      timeStamp_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>int32 timeStamp = 2;</code>
-     */
-    public Builder clearTimeStamp() {
-      
-      timeStamp_ = 0;
+      tempValue_ = 0;
       onChanged();
       return this;
     }
