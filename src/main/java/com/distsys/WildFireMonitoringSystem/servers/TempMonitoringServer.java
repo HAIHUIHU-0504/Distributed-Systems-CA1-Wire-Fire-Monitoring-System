@@ -1,4 +1,4 @@
-package com.distsys.wire_fire_monitoring_system;
+package com.distsys.WildFireMonitoringSystem.servers;
 
 import grpc.TempMonitoringService.*;
 import grpc.TempMonitoringService.TempMonitoringServiceGrpc.TempMonitoringServiceImplBase;
@@ -6,6 +6,8 @@ import grpc.TempMonitoringService.TempMonitoringServiceGrpc.TempMonitoringServic
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
+
+import com.distsys.WildFireMonitoringSystem.mockDataBase.TemperatureLocationMap;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;

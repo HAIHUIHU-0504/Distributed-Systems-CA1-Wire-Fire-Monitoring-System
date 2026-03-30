@@ -1,4 +1,4 @@
-package com.distsys.wire_fire_monitoring_system;
+package com.distsys.WildFireMonitoringSystem.mockDataBase;
 
 import java.util.ArrayList;
 import java.util.HashMap;

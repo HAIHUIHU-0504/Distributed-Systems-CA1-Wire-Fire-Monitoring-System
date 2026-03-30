@@ -1,4 +1,4 @@
-package com.distsys.wire_fire_monitoring_system;
+package com.distsys.WildFireMonitoringSystem.servers;
 import grpc.EmergencyResponseService.*;
 import grpc.EmergencyResponseService.EmergencyResponseServiceGrpc.EmergencyResponseServiceImplBase;
 

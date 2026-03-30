@@ -1,14 +1,12 @@
-package com.distsys.wire_fire_monitoring_system;
+package com.distsys.WildFireMonitoringSystem.servers;
 import grpc.RiskEvaluateService.*;
 import grpc.RiskEvaluateService.RiskEvaluateServiceGrpc.RiskEvaluateServiceImplBase;
 
 import java.io.IOException;
-import java.util.Random;
 import java.util.logging.Logger;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 import io.grpc.stub.StreamObserver;
 public class RiskEvaluateServer extends RiskEvaluateServiceImplBase {
 
