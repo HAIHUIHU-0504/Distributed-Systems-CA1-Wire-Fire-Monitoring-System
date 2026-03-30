@@ -4,38 +4,44 @@ import grpc.TempMonitoringService.*;
 import grpc.TempMonitoringService.TempMonitoringServiceGrpc.TempMonitoringServiceImplBase;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.List;
 import java.util.logging.Logger;
 
 import com.distsys.WildFireMonitoringSystem.mockDataBase.TemperatureLocationMap;
+import com.distsys.WildFireMonitoringSystem.naming.JmDNSRegistration;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
+;
 
 
 public class TempMonitoringServer extends TempMonitoringServiceImplBase {
     private static final Logger logger = Logger.getLogger(TempMonitoringServer.class.getName());
     private static TemperatureLocationMap tempDatabase = new TemperatureLocationMap();
     public static void main(String[] args){
-
         TempMonitoringServer TempServer = new TempMonitoringServer();
-
         int port = 50051;
 
         try {
+            // Start gRPC Server
             Server server = ServerBuilder.forPort(port)
             .addService(TempServer)
             .build()
             .start();
             logger.info("Server started, listening on " + port);
             System.out.println("Temperature monitoring Server started, listening on " + port);		   
+            
             server.awaitTermination();
+            
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
 
     }
+
+// ------------ gRPC Method Implementations ------------
     @Override
     public void getCurrentTemperature(LocationRequest request, StreamObserver<TemperatureResponse> responseObserver)    {
         String locationID = request.getLocationID();
@@ -81,5 +87,7 @@ public class TempMonitoringServer extends TempMonitoringServiceImplBase {
         }
         responseObserver.onCompleted();
     }   
+
+
 
 }
