@@ -1,4 +1,9 @@
 package com.distsys.WildFireMonitoringSystem.clients;
+import javax.jmdns.JmDNS;
+import java.net.URL;
+import java.io.IOException;
+import com.distsys.WildFireMonitoringSystem.naming.JmDNSDiscovery;
+
 import grpc.EmergencyResponseService.*;
 import grpc.EmergencyResponseService.EmergencyResponseServiceGrpc.EmergencyResponseServiceBlockingStub;
 import grpc.EmergencyResponseService.EmergencyResponseServiceGrpc.EmergencyResponseServiceStub  ;
@@ -14,8 +19,28 @@ public class EmergencyResponseClient {
     // a blocking stub to make synchronous calls
     private static EmergencyResponseServiceBlockingStub syncStub;
     public static void main(String[] args) {
-            ManagedChannel erpChannel = ManagedChannelBuilder
-                    .forAddress("localhost", 50053)
+        JmDNSDiscovery  erpDiscovery = new JmDNSDiscovery("_grpc._tcp.local.", "WildFireEmergencyResponseService");
+        ManagedChannel erpChannel = null;
+        try {
+            System.out.println("Searching for gRPC service...");
+            String url = erpDiscovery.discoverService(10000);
+            
+            if (url == null) {
+                System.out.println("Could not discover service. Exiting...");
+                erpDiscovery.close();
+                return;
+            }
+
+            System.out.println("Connecting to  Emergency Response service at url:  " + url);
+
+                URL parsedUrl = new URL(url);
+                String host = parsedUrl.getHost();
+                int port = parsedUrl.getPort();;
+    
+                System.out.println("\nConnecting to gRPC Service at " + host + ":" + port + "...");
+
+         erpChannel = ManagedChannelBuilder
+                    .forAddress(host, port)
                     .usePlaintext()
                     .build();
 
@@ -27,9 +52,25 @@ public class EmergencyResponseClient {
         // Create an asynchronous stub for bi-directional streaming calls
         asyncStub = EmergencyResponseServiceGrpc.newStub(erpChannel);
         // Start monitoring device status
-        new EmergencyResponseClient().monitorDeviceStatus();
-        
+        monitorDeviceStatus();
+
+        // Keep the client running to receive streaming responses
+        Thread.sleep(30000); // Run for 30 seconds
+        erpChannel.shutdown();
+        erpDiscovery.close();
+
+        } catch (Exception e) { 
+            e.printStackTrace();
+            if (erpDiscovery != null) {
+        try {            
+            erpDiscovery.close();
+        } catch (IOException ioe) {
+            System.err.println("Error while closing JmDNS: " + ioe.getMessage());
+        }
+    
+            }    
     }
+}
     private static void activateSprinklers(String location, boolean activate) {
         System.out.println((activate ? "Activating" : "Deactivating") + " sprinklers in " + location + "...");
         // Create a request message
@@ -46,7 +87,7 @@ public class EmergencyResponseClient {
     /**
      * 2. BI-DIRECTIONAL STREAMING: devices health status monitoring
      */
-    public void monitorDeviceStatus() {
+    public static void monitorDeviceStatus() {
         System.out.println(">>> turning on device status monitoring...");
 
         // define a response observer to handle incoming messages from the server (from server receive)

@@ -28,10 +28,11 @@ public class TempMonitoringClient {
     private static TempMonitoringServiceBlockingStub syncTMStub;
 
     public static void main(String[] args) {
-         // discover the service of type ""_http._tcp.local." with name "example""
-        JmDNSDiscovery tmsDiscovry = new JmDNSDiscovery("_http._tcp.local.", "WildFireTempService");
+         // discover the service of type ""_grpc._tcp.local." with name "WildFireTempService" using JmDNS"
+        JmDNSDiscovery tmsDiscovry = new JmDNSDiscovery("_grpc._tcp.local.", "WildFireTempService");
        
         try {
+            System.out.println("Searching for gRPC service...");
             String url = tmsDiscovry.discoverService(10000);
             
             if (url == null) {
@@ -40,23 +41,11 @@ public class TempMonitoringClient {
                 return;
             }
 
-            System.out.println("Discovered service at url:  " + url);
-
-            HttpClient httpClient = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
-
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-            if (response.statusCode() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : " + response.statusCode());
-            }
-            
-            System.out.println("Output from HTTP Server .... \n" + response.body());
-
+            System.out.println("Discovered Temperature monitoring service at url:  " + url);
 
             URL parsedUrl = new URL(url);
             String host = parsedUrl.getHost();
-            int port = 50051;
+            int port = parsedUrl.getPort();;
 
             System.out.println("\nConnecting to gRPC Service at " + host + ":" + port + "...");
             

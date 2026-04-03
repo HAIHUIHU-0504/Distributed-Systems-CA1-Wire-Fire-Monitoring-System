@@ -5,36 +5,48 @@ import grpc.EmergencyResponseService.EmergencyResponseServiceGrpc.EmergencyRespo
 import java.io.IOException;
 import java.util.logging.Logger;
 
+import com.distsys.WildFireMonitoringSystem.naming.JmDNSRegistration;
+
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
 
-
+import com.distsys.WildFireMonitoringSystem.mockDataBase.TemperatureLocationMap;
 
 
 public class EmergencyResponseServer extends EmergencyResponseServiceImplBase{
     	private static final Logger logger = Logger.getLogger(EmergencyResponseServer.class.getName());
+        private static TemperatureLocationMap tempData = new TemperatureLocationMap();
         public static void main(String[] args) {
             EmergencyResponseServer ERPserver = new EmergencyResponseServer();
             int port = 50053;
             try {
+                // Start gRPC Server
                 Server server = ServerBuilder.forPort(port)
                         .addService(ERPserver)
                         .build()
                         .start();
                 logger.info("Emergency Response Server started, listening on " + port);
+
+                // Register the service with JmDNS for discovery
+                JmDNSRegistration erp = JmDNSRegistration.getInstance();
+                erp.registerService("_grpc._tcp.local.", "WildFireEmergencyResponseService", port, "path=EmergencyResponseService");
+
+                // keep the server running
                 server.awaitTermination();
+            
             } catch (IOException | InterruptedException e) {
-                logger.severe("Server error: " + e.getMessage());
+                e.printStackTrace();
             }            
         }
-
+// ------------ gRPC Method Implementations ------------
         // Unary RPC: act on / shut down sprinkler system manually
         @Override
         public void activateSprinklers(ActionRequest request, StreamObserver<ActionResponse> responseObserver) {
         String location = request.getLocation();
         boolean hasActivated = request.getActivate();
         
+        tempData.setSprinkler(location, hasActivated);
         System.out.println("received command - location: " + location + ", action: " + (hasActivated ? "activate" : "deactivate"));
 
         boolean success = true; 

@@ -5,35 +5,44 @@ import grpc.RiskEvaluateService.RiskEvaluateServiceGrpc.RiskEvaluateServiceImplB
 import java.io.IOException;
 import java.util.logging.Logger;
 
+import com.distsys.WildFireMonitoringSystem.mockDataBase.TemperatureLocationMap;
+import com.distsys.WildFireMonitoringSystem.naming.JmDNSRegistration;
+
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
 public class RiskEvaluateServer extends RiskEvaluateServiceImplBase {
 
         private static final Logger logger = Logger.getLogger(RiskEvaluateServer.class.getName());
-    
+        private static TemperatureLocationMap tempDatabase = new TemperatureLocationMap();
         public static void main(String[] args){
-    
             RiskEvaluateServer RiskServer = new RiskEvaluateServer();
-    
             int port = 50052;
     
             try {
+                 // Start gRPC Server
                 Server server = ServerBuilder.forPort(port)
                 .addService(RiskServer)
                 .build()
                 .start();
                 logger.info("Server started, listening on " + port);
                 System.out.println("Risk evaluation Server started, listening on " + port);		   
+               
+               // Register the service with JmDNS for discovery
+                JmDNSRegistration res = JmDNSRegistration.getInstance();
+                res.registerService("_grpc._tcp.local.", "WildFireRiskEvaluationService", port, "path=RiskEvaluateService");    
+               
                 server.awaitTermination();
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
         }
+// ------------ gRPC Method Implementations ------------
         @Override
         public void evaluateRisk(EnvironmentalData request, StreamObserver<RiskAssessment> responseObserver)    {
             // Simulate risk evaluation based on temperature and locationID
             System.out.println("Received risk evaluation request for location: " + request.getLocationID() + " with temperature: " + request.getTempValue());
+            String location = request.getLocationID();
             // Simulated risk level (0，1，2，3)
             int temp = request.getTempValue(); // Initialize risk level
             int riskLevel = 0; // Initialize risk level
@@ -51,6 +60,8 @@ public class RiskEvaluateServer extends RiskEvaluateServiceImplBase {
                 riskLevel = 0; // No risk
                 msg="No significant risk of fire detected.";
             }
+
+            tempDatabase.setRiskStatus(location, msg);
             // Builder for response
             RiskAssessment response = RiskAssessment.newBuilder()
                     .setRiskLevelValue(riskLevel)

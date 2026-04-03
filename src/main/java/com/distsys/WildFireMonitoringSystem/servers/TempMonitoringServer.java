@@ -33,6 +33,11 @@ public class TempMonitoringServer extends TempMonitoringServiceImplBase {
             logger.info("Server started, listening on " + port);
             System.out.println("Temperature monitoring Server started, listening on " + port);		   
             
+            // Register the service with JmDNS for discovery
+            JmDNSRegistration tmsr = JmDNSRegistration.getInstance();
+            tmsr.registerService("_grpc._tcp.local.", "WildFireTempService", port, "path=TempMonitoringService");
+
+            // keep the server running
             server.awaitTermination();
             
         } catch (IOException | InterruptedException e) {
@@ -42,6 +47,7 @@ public class TempMonitoringServer extends TempMonitoringServiceImplBase {
     }
 
 // ------------ gRPC Method Implementations ------------
+    // Unary RPC: get current temperature by locationID
     @Override
     public void getCurrentTemperature(LocationRequest request, StreamObserver<TemperatureResponse> responseObserver)    {
         String locationID = request.getLocationID();

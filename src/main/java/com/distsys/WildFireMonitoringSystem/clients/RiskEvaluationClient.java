@@ -16,7 +16,7 @@ public class RiskEvaluationClient {
         syncStub = RiskEvaluateServiceGrpc.newBlockingStub(riskChannel);
 
         // Evaluate risk for Zone A with a temperature of 21°C
-        evaluateRisk("Zone A", 21);
+        evaluateRisk("Zone b", 30);
     }
    
          private static void evaluateRisk(String location, int temp) {

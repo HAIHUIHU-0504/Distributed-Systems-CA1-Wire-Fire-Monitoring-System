@@ -118,5 +118,23 @@ public class TemperatureLocationMap {
        theList.add(tempValue);
        mapTempLocation.put(location, theList);
    }
-   
+   private Map<String, Boolean> sprinklerStatus = new HashMap<>();
+
+    public void setSprinkler(String location, boolean active) {
+        sprinklerStatus.put(location, active);
+    }
+
+    public boolean isSprinklerActive(String location) {
+        return sprinklerStatus.getOrDefault(location, false);
+    }   
+    // 在 TemperatureLocationMap 类中添加
+    private Map<String, String> riskInfoMap = new HashMap<>();
+
+    public void setRiskStatus(String location, String message) {
+        riskInfoMap.put(location, message);
+    }
+
+    public String getRiskStatus(String location) {
+        return riskInfoMap.getOrDefault(location, "No Assessment Yet");
+    }
 }
