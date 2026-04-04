@@ -5,7 +5,7 @@ System ArchitectureThe system follows a microservices architecture using gRPC fo
 1. Temperature Monitoring Service (Port: 50051)
   - Role: Collects data from on-site thermal sensors.
   - Patterns:Unary: Get the latest temperature on demand.Server Streaming: Continuous real-time temperature updates.
-2. Risk Evaluation Service (Central Controller)
+2. Risk Evaluation Service (Port: 50053)
   - Role: The brain of the system. It aggregates data from temperature and humidity services.
   - Logic: Evaluates risk levels (LOW to CRITICAL) and triggers emergency protocols if thresholds are exceeded.
 3. Fire Emergency Response Service (Port: 50053)
